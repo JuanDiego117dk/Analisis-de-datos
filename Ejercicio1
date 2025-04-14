@@ -1,0 +1,39 @@
+# Importar bibliotecas
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Cargar los datos
+car_data = pd.read_csv('car data.csv')
+car_dekho = pd.read_csv('CAR DETAILS FROM CAR DEKHO.csv')
+
+# Mostrar todas las filas de cada dataset
+print("\nPrimeras filas de 'car data':")
+print(car_data)
+
+print("\nPrimeras filas de 'CAR DETAILS FROM CAR DEKHO':")
+print(car_dekho)
+
+# Verificar los nombres de las columnas
+print("\nNombres de las columnas en 'car data':")
+print(car_data.columns.tolist())
+
+print("\nNombres de las columnas en 'CAR DETAILS FROM CAR DEKHO':")
+print(car_dekho.columns.tolist())
+
+# Limpiar espacios en los nombres de las columnas
+car_data.columns = car_data.columns.str.strip()
+car_dekho.columns = car_dekho.columns.str.strip()
+
+# Verificar nuevamente los nombres de las columnas después de limpiar
+print("\nNombres de las columnas después de limpiar en 'car data':")
+print(car_data.columns.tolist())
+
+print("\nNombres de las columnas después de limpiar en 'CAR DETAILS FROM CAR DEKHO':")
+print(car_dekho.columns.tolist())
+
+# Verificar si las columnas existen
+if 'Selling_Price' in car_data.columns:
+    print("\n'Selling_Price' existe en 'car data'")
+else:
+    print("\n'Selling_Price' no existe en 'car data'")
