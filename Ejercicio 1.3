@@ -1,0 +1,39 @@
+# Leer todos los datos de los archivos CSV
+car_data = pd.read_csv('car data.csv')
+car_dekho = pd.read_csv('CAR DETAILS FROM CAR DEKHO.csv')
+
+# Limpiar los datos: convertir precios a tipo numérico
+car_data['Selling_Price'] = pd.to_numeric(car_data['Selling_Price'], errors='coerce')
+car_data['Present_Price'] = pd.to_numeric(car_data['Present_Price'], errors='coerce')
+
+# Asegurarse de que Kms_Driven sea tratado correctamente
+car_data['Kms_Driven'] = car_data['Kms_Driven'].astype(str).str.replace(' km','').str.replace(',','').astype(float)
+
+# Manejo de valores faltantes en car_data solo para columnas numéricas
+numeric_cols_car_data = car_data.select_dtypes(include=['float64', 'int64']).columns
+car_data[numeric_cols_car_data] = car_data[numeric_cols_car_data].fillna(car_data[numeric_cols_car_data].mean())
+
+# Convertir precios y kilometros a tipo numérico
+car_dekho['selling_price'] = pd.to_numeric(car_dekho['selling_price'], errors='coerce')
+car_dekho['km_driven'] = pd.to_numeric(car_dekho['km_driven'], errors='coerce')
+
+# Manejo de valores faltantes en car_dekho solo para columnas numéricas
+numeric_cols_car_dekho = car_dekho.select_dtypes(include=['float64', 'int64']).columns
+car_dekho[numeric_cols_car_dekho] = car_dekho[numeric_cols_car_dekho].fillna(car_dekho[numeric_cols_car_dekho].mean())
+
+# Convertir columnas categóricas a tipo de categoría (opcional)
+categorical_cols_car_data = ['Fuel_Type', 'Seller_Type', 'Transmission']
+categorical_cols_car_dekho = ['fuel', 'seller_type', 'transmission', 'owner']
+
+for col in categorical_cols_car_data:
+    car_data[col] = car_data[col].astype('category')
+
+for col in categorical_cols_car_dekho:
+    car_dekho[col] = car_dekho[col].astype('category')
+
+# Mostrar datos preprocesados de forma resumida, las 5 primeras y las últimas 5 filas
+print("\nDatos preprocesados de 'car data':")
+print(pd.concat([car_data.head(), pd.DataFrame([["..."] * len(car_data.columns)], columns=car_data.columns), car_data.tail()]))
+
+print("\nDatos preprocesados de 'CAR DETAILS FROM CAR DEKHO':")
+print(pd.concat([car_dekho.head(), pd.DataFrame([["..."] * len(car_dekho.columns)], columns=car_dekho.columns), car_dekho.tail()]))
